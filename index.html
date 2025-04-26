@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynasty Fantasy Football Draft Results</title>
+    <style>
+        body {
+            background-color: #1e1e1e;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 3rem;
+            font-weight: bold;
+            color: #eaeaea;
+            background: linear-gradient(to right, #00b5cc, #00ff80);
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .draft-list {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            width: 100%;
+        }
+
+        .draft-card-container {
+            background-color: #2a2a2a;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            margin: 0 auto;
+            width: 100%;
+            max-width: 900px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .draft-card-container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .pick-team {
+            background-color: #003b49;
+            color: #f4f4f4;
+            font-weight: bold;
+            padding: 12px 20px;
+            border-radius: 50px;
+            width: 100%;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
+        }
+
+        .draft-card {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            align-items: center;
+            padding: 15px;
+            background-color: #333;
+            border-radius: 15px;
+            color: #ffffff;
+        }
+
+        .draft-card-left {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            flex-basis: 60%;
+            justify-content: flex-start;
+        }
+
+        .draft-card-left img {
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .player-photo {
+            width: 100px;
+            height: 100px;
+        }
+
+        .draft-card-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: center;
+            flex-basis: 30%;
+        }
+
+        .draft-card h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            letter-spacing: 1px;
+        }
+
+        .player-name {
+            font-size: 1.1rem;
+            color: #f4f4f4;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        .position-college {
+            font-size: 0.9rem;
+            color: #dcdcdc;
+            text-align: center;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .draft-card-container {
+                padding: 20px;
+            }
+
+            .draft-card {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .draft-card-left, .draft-card-right {
+                flex-basis: 100%;
+                text-align: center;
+            }
+
+            .player-photo {
+                width: 80px;
+                height: 80px;
+            }
+
+            .draft-card h3 {
+                font-size: 1.3rem;
+            }
+
+            .player-name {
+                font-size: 0.9rem;
+            }
+
+            .pick-team {
+                font-size: 1.2rem;
+                padding: 10px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .draft-card h3 {
+                font-size: 1.1rem;
+            }
+
+            .player-name {
+                font-size: 0.85rem;
+            }
+
+            .pick-team {
+                font-size: 1rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Adrian Charania Mock Draft 4.0</h1>
+    <div class="draft-list" id="draftResults"></div>
+</div>
+
+<script>
+    const draftPicks = [
+        { rank: 1, team: "WINSTONS WARRIORS", player: "ASHTON JEANTY", position: "RB", college: "Boise State", playerPhoto: "assets/ashton_jeanty.jpeg" },
+        { rank: 2, team: "WINSTONS WARRIORS", player: "TETAIROA MCMILLAN", position: "WR", college: "Arizona", playerPhoto: "assets/tetairoa_mcmillan.jpeg" },
+        { rank: 3, team: "DOOSBOYS", player: "OMARION HAMPTON", position: "RB", college: "UNC", playerPhoto: "assets/omarion_hampton.jpeg" },
+        { rank: 4, team: "DROPKICK MURPHYS", player: "MATTHEW GOLDEN", position: "WR", college: "Texas", playerPhoto: "assets/matthew_golden.jpeg" },
+        { rank: 5, team: "LIL PEANUT'S PADRES", player: "CAM WARD", position: "QB", college: "Miami", playerPhoto: "assets/cam_ward.jpeg" },
+        { rank: 6, team: "WATAUGA WHONSTERS", player: "COLSTON LOVELAND", position: "TE", college: "Michigan", playerPhoto: "assets/colston_loveland.jpg" },
+        { rank: 7, team: "JACKPOT", player: "QUINSHON JUDKINS", position: "RB", college: "Ohio State", playerPhoto: "assets/quinshon_judkins.jpeg" },
+        { rank: 8, team: "DROPKICK MURPHYS", player: "TRAVIS HUNTER", position: "WR", college: "Colorado", playerPhoto: "assets/travis_hunter.jpeg" },
+        { rank: 9, team: "WINSTONS WARRIORS", player: "EMEKA EGBUKA", position: "WR", college: "Ohio State", playerPhoto: "assets/emeka_egbuka.jpeg" },
+        { rank: 10, team: "HIGHLAND HAWGS", player: "TREVEYON HENDERSON", position: "RB", college: "Ohio State", playerPhoto: "assets/treyveon_henderson.jpeg" },
+        { rank: 11, team: "WINSTONS WARRIORS", player: "TYLER WARREN", position: "TE", college: "Penn State", playerPhoto: "assets/tyler_warren.jpg" },
+        { rank: 12, team: "JACKPOT", player: "LUTHER BURDEN", position: "WR", college: "Missouri", playerPhoto: "assets/luther_burden.jpeg" }
+    ];
+
+    // Function to display draft picks
+    function displayDraftPicks() {
+        const draftResultsDiv = document.getElementById("draftResults");
+        draftResultsDiv.innerHTML = '';
+
+        draftPicks.forEach(pick => {
+            const draftCardContainer = document.createElement("div");
+            draftCardContainer.classList.add("draft-card-container");
+
+            draftCardContainer.innerHTML = `
+                <div class="pick-team">
+                    <p>Pick #${pick.rank} - ${pick.team}</p>
+                </div>
+                <div class="draft-card">
+                    <div class="draft-card-left">
+                        <img src="${pick.playerPhoto}" alt="${pick.player} photo" class="player-photo">
+                        <div>
+                            <h3>${pick.player}</h3>
+                            <p class="player-name">${pick.position} | ${pick.college}</p>
+                        </div>
+                    </div>
+                    <div class="draft-card-right">
+                        <p class="team-name">${pick.team}</p>
+                    </div>
+                </div>
+            `;
+
+            draftResultsDiv.appendChild(draftCardContainer);
+        });
+    }
+
+    // Display the draft picks when the page loads
+    window.onload = displayDraftPicks;
+</script>
+
+</body>
+</html>
+
